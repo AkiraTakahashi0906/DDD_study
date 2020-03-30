@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="commonConst.cs" />
+    <Compile Include="commonFunc.cs" />
     <Compile Include="Entities\WeatherEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IWeatherRepository.cs" />
+    <Compile Include="ValueObjects\Temperature.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,8 +8,6 @@ namespace DDD.WinForm.common
 {
     public static class commonConst
     {
-        public const string temperatureUnitName = "℃";
-        public const int temperatureDecimalPoint =2;
         public const string ConnectionString = @"Data Source=C:\Users\akira\OneDrive\デスクトップ\C#\DDD.db;Version=3;";
     }
 }

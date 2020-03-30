@@ -28,7 +28,6 @@ namespace DDDTest.Tests
 
         }
     }
-
     internal class WeatherMock : IWeatherRepository
     {
         public WeatherEntity GetLatest(int areaId)

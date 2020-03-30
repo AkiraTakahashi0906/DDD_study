@@ -66,8 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\Class1.cs" />
-    <Compile Include="common\commonConst.cs" />
-    <Compile Include="common\commonFunc.cs" />
     <Compile Include="Data\weatherSqlite.cs" />
     <Compile Include="ViewModels\WeatherLatestViewModel.cs" />
     <Compile Include="Views\WeatherLatestView.cs">
