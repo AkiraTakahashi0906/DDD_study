@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using DDD.Domain.Entities;
 using DDD.Domain.Repositories;
 using DDD.WinForm.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,23 +31,9 @@ namespace DDDTest.Tests
 
     internal class WeatherMock : IWeatherRepository
     {
-        public DataTable GetLatest(int areaId)
+        public WeatherEntity GetLatest(int areaId)
         {
-            var dt = new DataTable();
-            dt.Columns.Add("AreaId", typeof(int));
-            dt.Columns.Add("DataDate", typeof(DateTime));
-            dt.Columns.Add("Condition", typeof(int));
-            dt.Columns.Add("Temperature", typeof(float));
-
-            var newRow = dt.NewRow();
-            newRow["AreaId"] = 1;
-            newRow["DataDate"] = Convert.ToDateTime("2018/01/01 12:24:56");
-            newRow["Condition"] = 2;
-            newRow["Temperature"] = 12.3f;
-
-            dt.Rows.Add(newRow);
-            return dt;
-
+            return  new WeatherEntity(1, Convert.ToDateTime("2018/01/01 12:24:56"),2, 12.3f);
         }
     }
 }
