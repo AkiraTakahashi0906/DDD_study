@@ -5,7 +5,7 @@ using System.Data.SQLite;
 
 namespace DDD.infrastructure.SQLite
 {
-    public  class WeatherSqlite : IWeatherRepository
+    public  class WeatherSQLite : IWeatherRepository
     {
         public WeatherEntity GetLatest(int areaId)
         {

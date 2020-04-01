@@ -17,7 +17,7 @@ namespace DDD.WinForm.ViewModels
         IAreasRepository _areas;
 
         //引数無しで呼ばれたら、下の引数ありのコンストラクタに　new WeatherSqlite()をなげる　本番コードDBを指定する
-        public WeatherLatestViewModel():this(new WeatherSqlite(),null)
+        public WeatherLatestViewModel():this(new WeatherSQLite(),new AreasSQLite())
         {
         }
 
@@ -79,7 +79,13 @@ namespace DDD.WinForm.ViewModels
         public void Search()
         {
             var entity =_weather.GetLatest(Convert.ToInt32(_selectedAreaId));
-            if (entity!=null)
+            if (entity == null)
+            {
+                DataDateText = string.Empty;
+                ConditionText = string.Empty;
+                TemperatureText = string.Empty;
+            }
+            else
             {
                 DataDateText = entity.DataDate.ToString();
                 ConditionText = entity.Condition.DisplayValue;
