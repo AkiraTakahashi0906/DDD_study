@@ -1,5 +1,5 @@
-﻿using DDD.WinForm.common;
-using DDD.WinForm.Data;
+﻿
+using DDD.WinForm.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,23 +15,30 @@ namespace DDD.WinForm
 {
     public partial class WeatherLatestView : Form
     {
-   
+        private WeatherLatestViewModel _viewModel = new WeatherLatestViewModel();
+
+
         public WeatherLatestView()
         {
             InitializeComponent();
+            this.AreasComboBox.DataBindings.Add(
+                "SelectedValue", _viewModel, nameof(_viewModel.SelectedAreaId));
+            this.DataDateLabel.DataBindings.Add(
+                "Text", _viewModel, nameof(_viewModel.DataDateText));
+            this.ConditionLabel.DataBindings.Add(
+                "Text", _viewModel, nameof(_viewModel.ConditionText));
+            this.TemperatureLabel.DataBindings.Add(
+                "Text", _viewModel, nameof(_viewModel.TemperatureText));
         }
 
         private void LatestButton_Click(object sender, EventArgs e)
         {
-            //var dt = weatherSqlite.GetLatest(Convert.ToInt32(AreaIdTextBox.Text));
-            //if (dt.Rows.Count > 0)
-            //{
-            //    DataDateLabel.Text = dt.Rows[0]["DataDate"].ToString();
-            //    ConditionLabel.Text = dt.Rows[0]["Condition"].ToString();
-            //    TemperatureLabel.Text =
-            //    commonFunc.RoundString(Convert.ToSingle(dt.Rows[0]["Temperature"]), commonConst.temperatureDecimalPoint) + commonConst.temperatureUnitName;
-            //}
+            _viewModel.Search();
         }
 
+        private void WeatherLatestView_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

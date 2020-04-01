@@ -1,40 +1,91 @@
-﻿using DDD.Domain.Repositories;
+﻿using DDD.Domain.Entities;
+using DDD.Domain.Repositories;
 using DDD.Domain.ValueObjects;
-using DDD.WinForm.common;
+using DDD.infrastructure.SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DDD.WinForm.ViewModels
 {
-    public class WeatherLatestViewModel
+    public class WeatherLatestViewModel : ViewModelBase
     {
         private IWeatherRepository _weather;
+        IAreasRepository _areas;
 
-        public WeatherLatestViewModel(IWeatherRepository weather)
+        //引数無しで呼ばれたら、下の引数ありのコンストラクタに　new WeatherSqlite()をなげる　本番コードDBを指定する
+        public WeatherLatestViewModel():this(new WeatherSqlite(),null)
         {
-            _weather = weather;
         }
 
-        public string AreaIdText { get; set; } = string.Empty;
-        public string DataDateText { get; set; } = string.Empty;
-        public string ConditionText { get; set; } = string.Empty;
-        public string TemperatureText { get; set; } = string.Empty;
+        public WeatherLatestViewModel(IWeatherRepository weather,
+            IAreasRepository areas)　//テストコード用　モックを指定する
+        {
+            _weather = weather;
+            _areas = areas;
+
+            foreach(var area in areas.GetData())
+            {
+                Areas.Add(new AreaEntity(area.AreaId, area.AreaName));
+            }
+        }
+
+        private object _selectedAreaId;
+        public object SelectedAreaId
+        {
+            get { return _selectedAreaId; }
+            set
+            {
+                SetProperty(ref _selectedAreaId, value);
+            }
+        }
+
+        private string _DataDateText = string.Empty;
+        public string DataDateText
+        {
+            get { return _DataDateText; }
+            set
+            {
+                SetProperty(ref _DataDateText, value);
+            }
+        }
+
+        private string _ConditionText = string.Empty;
+        public string ConditionText
+        {
+            get { return _ConditionText; }
+            set
+            {
+                SetProperty(ref _ConditionText, value);
+            }
+        }
+
+        private string _TemperatureText = string.Empty;
+        public string TemperatureText
+        {
+            get { return _TemperatureText; }
+            set
+            {
+                SetProperty(ref _TemperatureText, value);
+            }
+        }
+
+        public BindingList<AreaEntity> Areas { get; set; }
+        = new BindingList<AreaEntity>();
 
         public void Search()
         {
-            var entity =_weather.GetLatest(Convert.ToInt32(AreaIdText));
+            var entity =_weather.GetLatest(Convert.ToInt32(_selectedAreaId));
             if (entity!=null)
             {
                 DataDateText = entity.DataDate.ToString();
-                ConditionText = entity.Condition.ToString();
-                TemperatureText =
-                commonFunc.RoundString(entity.Temperature,
-                Temperature.DecimalPoint) +" "
-                + Temperature.UnitName;
+                ConditionText = entity.Condition.DisplayValue;
+                TemperatureText = entity.Temperature.DisplayValueWithUnitSpace;
             }
         }
+
     }
 }

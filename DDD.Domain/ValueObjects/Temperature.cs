@@ -1,9 +1,9 @@
 ﻿
-using DDD.WinForm.common;
+using DDD.Domain.Helpers;
 
 namespace DDD.Domain.ValueObjects
 {
-    public sealed class Temperature
+    public sealed class Temperature : ValueObject<Temperature>
     {
         public const string UnitName = "℃";
         public const int DecimalPoint = 2;
@@ -17,29 +17,30 @@ namespace DDD.Domain.ValueObjects
         {
             get
             {
-                return commonFunc.RoundString(Value, DecimalPoint)+UnitName;
+                return Value.RoundString(DecimalPoint);
+                //return FloatHelper.RoundString(Value, DecimalPoint);
             }
         }
 
-        public override bool Equals(object obj)
+        public string DisplayValueWithUnit
         {
-            var vo = obj as Temperature;//objをTemperatureに変換
-            if (vo == null)//方がTemperature　classではない。
+            get
             {
-                return false;
+                return Value.RoundString(DecimalPoint) + UnitName;
             }
-
-            return Value == vo.Value;
         }
 
-        public static bool operator == (Temperature vo1, Temperature vo2)
+        public string DisplayValueWithUnitSpace
         {
-            return Equals(vo1, vo2);
-        }
-        public static bool operator !=(Temperature vo1, Temperature vo2)
-        {
-            return !Equals(vo1, vo2);
+            get
+            {
+                return Value.RoundString(DecimalPoint) + " " + UnitName;
+            }
         }
 
+        protected override bool EqualsCore(Temperature other)
+        {
+            return Value == other.Value;
+        }
     }
 }

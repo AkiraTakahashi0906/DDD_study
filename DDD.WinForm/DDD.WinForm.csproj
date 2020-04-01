@@ -65,8 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="common\Class1.cs" />
-    <Compile Include="Data\weatherSqlite.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\WeatherLatestViewModel.cs" />
     <Compile Include="Views\WeatherLatestView.cs">
       <SubType>Form</SubType>
