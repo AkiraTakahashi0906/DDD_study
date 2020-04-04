@@ -20,6 +20,7 @@ namespace DDDTest.Tests
             entities.Add(
                 new WeatherEntity(
                 1,
+                "東京",
                 Convert.ToDateTime("2018/01/01 12:24:56"),
                 2,
                 12.3f));
@@ -27,6 +28,7 @@ namespace DDDTest.Tests
             entities.Add(
                 new WeatherEntity(
                 2,
+                "神戸",
                 Convert.ToDateTime("2018/01/02 12:24:56"),
                 1,
                 22.123f));

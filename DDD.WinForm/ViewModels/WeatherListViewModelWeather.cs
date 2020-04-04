@@ -15,10 +15,10 @@ namespace DDD.WinForm.ViewModels
             _entity = entity;
         }
 
-        public string AreaId { get; set; }
-        public string AreaName { get; set; }
-        public string DataDate { get; set; }
-        public string Condition { get; set; }
-        public string Temperature { get; set; }
+        public string AreaId => _entity.AreaId.DisplayValue;
+        public string AreaName => _entity.AreaName;
+        public string DataDate => _entity.DataDate.ToString();
+        public string Condition => _entity.Condition.DisplayValue;
+        public string Temperature => _entity.Temperature.DisplayValueWithUnitSpace;
     }
 }
