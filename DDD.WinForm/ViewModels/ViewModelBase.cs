@@ -27,5 +27,11 @@ namespace DDD.WinForm.ViewModels
             }
             return true;
         }
+
+        //virtual Moqでオーバーライドするために必要
+        public virtual DateTime GetDateTime()
+        {
+            return DateTime.Now;
+        }
     }
 }
