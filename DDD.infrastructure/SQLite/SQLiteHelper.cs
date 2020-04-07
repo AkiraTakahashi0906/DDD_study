@@ -50,7 +50,7 @@ namespace DDD.infrastructure.SQLite
             return QuerySingle<T>(sql, null, createEntity, nullEntity);
         }
 
-            internal static T QuerySingle<T>(string sql,
+        internal static T QuerySingle<T>(string sql,
                             SQLiteParameter[] parameters, 
                             Func<SQLiteDataReader, T> createEntity, 
                             T nullEntity)
@@ -72,6 +72,45 @@ namespace DDD.infrastructure.SQLite
                 }
             }
             return nullEntity;
+        }
+
+        // インサート　と　アップデート
+        internal static void Execute(
+            string insert,
+            string update,
+            SQLiteParameter[] parameters)
+        {
+            using (var connection = new SQLiteConnection(SQLiteHelper.ConnectionString))
+            using (var command = new SQLiteCommand(update, connection))
+            {
+                connection.Open();
+                if (parameters != null)
+                {
+                    command.Parameters.AddRange(parameters);
+                }
+
+                if (command.ExecuteNonQuery() < 1)
+                {
+                    command.CommandText = insert;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        internal static void Execute(
+        string sql,
+        SQLiteParameter[] parameters)
+        {
+            using (var connection = new SQLiteConnection(SQLiteHelper.ConnectionString))
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                connection.Open();
+                if (parameters != null)
+                {
+                    command.Parameters.AddRange(parameters);
+                }
+                    command.CommandText = sql;
+            }
         }
     }
 }

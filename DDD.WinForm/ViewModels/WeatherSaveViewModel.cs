@@ -3,6 +3,7 @@ using DDD.Domain.Exceptions;
 using DDD.Domain.Helpers;
 using DDD.Domain.Repositories;
 using DDD.Domain.ValueObjects;
+using DDD.infrastructure.SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,11 @@ namespace DDD.WinForm.ViewModels
         private IWeatherRepository _weather;
         private IAreasRepository _areas;
 
-        public WeatherSaveViewModel(
+        //引数なしのコンストラクタ
+        public WeatherSaveViewModel() : this(new WeatherSQLite(), new AreasSQLite())
+        {
+        }
+            public WeatherSaveViewModel(
             IWeatherRepository weather ,
             IAreasRepository areas)
         {
@@ -38,6 +43,7 @@ namespace DDD.WinForm.ViewModels
         public DateTime DataDateValue { get; set; }
         public object SelectedCondition { get; set; }　//コンボボックス→オブジェクト
         public string TemperatureText { get; set; }  //テキストボックス→オブジェクト
+        public string TemperatureUnitName => Temperature.UnitName;
 
         public BindingList<AreaEntity> Areas { get; set; }= new BindingList<AreaEntity>();
 
