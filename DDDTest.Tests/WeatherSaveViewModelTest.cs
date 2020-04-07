@@ -16,6 +16,7 @@ namespace DDDTest.Tests
         public void 天気シナリオ()
         {
 
+            var weatherMock = new Mock<IWeatherRepository>();
             var areasMock = new Mock<IAreasRepository>();
             var areas = new List<AreaEntity>();
             areas.Add(new AreaEntity(1, "東京"));
@@ -23,7 +24,7 @@ namespace DDDTest.Tests
 
             areasMock.Setup(x => x.GetData()).Returns(areas);
             //viewModelMockを作るときに、引数にareasMock.Objectを投げる
-            var viewModelMock = new Mock<WeatherSaveViewModel>(areasMock.Object);
+            var viewModelMock = new Mock<WeatherSaveViewModel>(weatherMock.Object, areasMock.Object);
             //viewModelではGetDateTime=>DateTime.now
             //テストではGetDateTimeが切り替わる
             viewModelMock.Setup(x => x.GetDateTime()).Returns(
@@ -51,6 +52,22 @@ namespace DDDTest.Tests
             ex = AssertEx.Throws<InputException>(() => viewModel.Save());
             ex.Message.Is("温度の入力に誤りがあります");
 
+            viewModel.TemperatureText = "12.345";
+
+            weatherMock.Setup(x => x.Save(It.IsAny<WeatherEntity>())).
+                Callback<WeatherEntity>(saveValue =>
+                {
+                    saveValue.AreaId.Value.Is(2);
+                    saveValue.DataDate.Is(Convert.ToDateTime("2018/01/01 12:34:56"));
+                    saveValue.Condition.Value.Is(1);
+                    saveValue.Temperature.Value.Is(12.345f);
+                });
+
+            viewModel.Save();
+
+            //weatherMockでテストしようとするやつ全部通ったかVerifyAll
+            //save系のテスト漏れを検知するVerifyAll
+            weatherMock.VerifyAll();
         }
     }
 }
