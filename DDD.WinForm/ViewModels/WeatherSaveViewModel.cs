@@ -42,7 +42,7 @@ namespace DDD.WinForm.ViewModels
         public object  SelectedAreaId { get; set; }　//コンボボックス→オブジェクト
         public DateTime DataDateValue { get; set; }
         public object SelectedCondition { get; set; }　//コンボボックス→オブジェクト
-        public string TemperatureText { get; set; }  //テキストボックス→オブジェクト
+        public string TemperatureText { get; set; }  //テキストボックス→ストリング
         public string TemperatureUnitName => Temperature.UnitName;
 
         public BindingList<AreaEntity> Areas { get; set; }= new BindingList<AreaEntity>();
